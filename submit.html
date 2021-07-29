@@ -1,0 +1,46 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.2/socket.io.js" integrity="sha512-YybopSVjZU0fe8TY4YDuQbP5bhwpGBE/T6eBUEZ0usM72IWBfWrgVI13qfX4V2A/W7Hdqnm7PIOYOwP9YHnICw==" crossorigin="anonymous"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+<body>
+<form id="submitform" method="POST" enctype="multipart/form-data">
+  <label for="files">Select files:</label>
+  <input type="file" id="files" name="files" multiple><br><br>
+  <input type="submit">
+</form>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $( '#submitform' )
+  .submit( function( e ) {
+    $.ajax( {
+      url: '/submit',
+      type: 'POST',
+      data: new FormData( this ),
+      processData: false,
+      contentType: false
+    } );
+    e.preventDefault();
+  } );
+
+	var socket = io.connect('http://54.85.151.250:5000');
+
+	socket.on('connect', function() {
+		socket.send('User has connected!');
+	});
+
+	socket.on('Outputevent', function(data){
+	    $("#messages").append('<li>'+data.data+'</li>');
+	    console.log(data);
+	});
+
+	socket.on('message', function(msg) {
+		console.log('Received message' + msg);
+	});
+
+});
+</script>
+<ul id="messages"></ul>
+</body>

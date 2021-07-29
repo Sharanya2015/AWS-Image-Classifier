@@ -1,5 +1,5 @@
-app.py  : app tier for accepting requests from controller. calls image classification model, sends response back to controller, auto-terminates
-getInstanceID.sh : script to read instance name
-image_classification.py : model provided to us
-imagenet-labels.json : model file provided to us
-terminateInstance.sh : script to terminate instance
+getInstance.sh  : get instance id
+sqsListener.py  : sqs lister for recieving completed output from controller and telling web tier so that web tier can push it to client
+start.py  : flask server
+static  : static files
+templates : templates for html page
